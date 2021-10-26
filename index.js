@@ -24,6 +24,7 @@ async function run() {
         // console.log('database connect successfully');
         const database = client.db("redEcommerce");
         const productCollection = database.collection("products");
+        const orderCollection = database.collection('orders');
 
         //GET API
         app.get('/products', async (req, res) => {
@@ -50,6 +51,13 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const product = await productCollection.findOne(query);
             res.json(product);
+        })
+        //ADD OEDERS API
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            // console.log('orders', order);
+            res.json(result);
         })
 
 
